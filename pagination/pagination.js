@@ -101,7 +101,7 @@ class PaginationWithDOM extends Pagination {
 
     for (let i = start; i <= end; i++) {
       if (i === this.currentPage) {
-        html += `<span class="${this.pageItemClass} ${this.pageItemActiveClass}" data-page="${i}">${i}</span>`
+        html += `<span class="${this.pageItemClass} ${this.pageItemActiveClass}">${i}</span>`
       } else {
         html += `<span class="${this.pageItemClass}" data-page="${i}">${i}</span>`
       }
@@ -117,22 +117,37 @@ class PaginationWithDOM extends Pagination {
       let target = e.target
       if (target.hasAttribute('data-page')) {
         let page = target.getAttribute('data-page')
+        let needBuild = true
         switch (page) {
           case 'prev':
-            this.getPreviousPageContent()
+            if (this.currentPage === 1) {
+              needBuild = false
+            } else {
+              this.getPreviousPageContent()
+            }
             break
           case 'next':
-            this.getNextPageContent()
+            if (this.currentPage === this.totalPages) {
+              needBuild = false
+            } else {
+              this.getNextPageContent()
+            }
             break
           default:
-            this.getPageContent(parseInt(page))
+            if (this.currentPage === parseInt(page)) {
+              needBuild = false
+            } else {
+              this.getPageContent(parseInt(page))
+            }
             break
         }
 
-        let content = this.getPageContent(this.currentPage)
-        // render page structure
-        this._buildUI()
-        this.callback.call(null, content)
+        if (needBuild) {
+          let content = this.getPageContent(this.currentPage)
+          // render page structure
+          this._buildUI()
+          this.callback.call(null, content)
+        }
       }
     })
   }

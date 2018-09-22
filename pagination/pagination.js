@@ -82,7 +82,7 @@ class PaginationWithDOM extends Pagination {
     let middle = Math.floor(this.pageBtnNum / 2)
     let $page = document.querySelector(`#${this.pageContainerId}`)
 
-    html += `<div class="${this.pageBtnClass} ${this.pageBtnPrevClass}" data-page="prev">${this.pageBtnPrevText}</div>`
+    html += `<span class="${this.pageBtnClass} ${this.pageBtnPrevClass}" data-page="prev">${this.pageBtnPrevText}</span>`
 
     if (this.pageBtnNum >= length) {
       // show all page number
@@ -106,7 +106,7 @@ class PaginationWithDOM extends Pagination {
         html += `<span class="${this.pageItemClass}" data-page="${i}">${i}</span>`
       }
     }
-    html += `<div class="${this.pageBtnClass} ${this.pageBtnNextClass}" data-page="next">${this.pageBtnNextText}</div>`
+    html += `<span class="${this.pageBtnClass} ${this.pageBtnNextClass}" data-page="next">${this.pageBtnNextText}</span>`
     $page.innerHTML = html
   }
 
